@@ -1,7 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Open Umbraco",
-  "version": "0.2.0",
+  "homepage_url": "https://github.com/HarveyWilliams/OpenUmbraco",
+  "version": "0.3.0",
   "icons": {
     "48": "icons/48.png"
   },

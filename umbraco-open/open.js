@@ -3,7 +3,7 @@ browser = typeof browser === 'undefined' ? chrome : browser;
 const open = {};
 
 open.name = 'UmbracoOpen';
-open.version = '0.2.0';
+open.version = '0.3.0';
 open.debug = false;
 
 // Create an anchor element to get the URL origin.
@@ -15,9 +15,14 @@ open.getOrigin = (fullUrl) => {
     return a.origin;
 };
 
-open.openUmbraco = (fullUrl) => {
+open.toggleUmbraco = (fullUrl) => {
+    let origin = open.getOrigin(fullUrl);
+
     browser.tabs.create({
-        "url": open.getOrigin(fullUrl) + '/umbraco/' // Must have trailing slash for Umbraco 4.
+        "url":
+            fullUrl.includes('/umbraco')
+                ? origin // Navigate back to the homepage since we are in Umbraco.
+                : origin + '/umbraco/' // Must have trailing slash for Umbraco 4.
     });
 };
 
@@ -55,13 +60,24 @@ open.clickEvent = (e, totalTime) => {
         return;
     }
 
+    /*
+    browser.tabs.getCurrent()
+        .then((tab) => {
+            console.log(tab);
+        });
+    */
+
+    // Not supported by Firefox.
+    //browser.tabs.getSelected()
+
+
     browser.tabs.query({ currentWindow: true, active: true }, function(tabs) {
         if (tabs[0].status == 'loading') {
             setTimeout(() => {
                 open.clickEvent(e, (totalTime || 0) + 100);
             }, 100);
         } else {
-            open.openUmbraco(tabs[0].url);
+            open.toggleUmbraco(tabs[0].url);
         }
     });
 };
