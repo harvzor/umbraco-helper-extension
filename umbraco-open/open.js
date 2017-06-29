@@ -3,7 +3,7 @@ browser = typeof browser === 'undefined' ? chrome : browser;
 const open = {};
 
 open.name = 'UmbracoOpen';
-open.version = '0.3.0';
+open.version = '0.4.0';
 open.debug = false;
 
 // Create an anchor element to get the URL origin.
@@ -15,14 +15,15 @@ open.getOrigin = (fullUrl) => {
     return a.origin;
 };
 
-open.toggleUmbraco = (fullUrl) => {
+open.toggleUmbraco = (fullUrl, index) => {
     let origin = open.getOrigin(fullUrl);
 
     browser.tabs.create({
-        "url":
+        url:
             fullUrl.includes('/umbraco')
                 ? origin // Navigate back to the homepage since we are in Umbraco.
-                : origin + '/umbraco/' // Must have trailing slash for Umbraco 4.
+                : origin + '/umbraco/', // Must have trailing slash for Umbraco 4.
+        index: index
     });
 };
 
@@ -77,7 +78,7 @@ open.clickEvent = (e, totalTime) => {
                 open.clickEvent(e, (totalTime || 0) + 100);
             }, 100);
         } else {
-            open.toggleUmbraco(tabs[0].url);
+            open.toggleUmbraco(tabs[0].url, tabs[0].index + 1);
         }
     });
 };
