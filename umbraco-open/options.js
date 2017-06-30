@@ -1,33 +1,31 @@
-browser = typeof browser === 'undefined' ? chrome : browser;
+//browser = typeof browser === 'undefined' ? chrome : browser;
 
 (function() {
-    var blueLogoEl = document.querySelector('#blue-logo')
+    console.log('loaded');
+    let blueLogoEl = document.querySelector('#blue-logo')
 
-    var saveOptions = function(e) {
+    let saveOptions = (e) => {
+        e.preventDefault();
+
+        let success = () => {
+            shared.setIcon();
+        };
+
+        let err = (error) => {
+            console.log(`Error: ${error}`);
+        };
+
         browser.storage.local.set({
             blueLogo: blueLogoEl.checked
-        });
-
-        if (blueLogoEl.checked) {
-            browser.browserAction.setIcon({
-                path: {
-                    30: 'icons/30-blue.png'
-                }
-            });
-        } else {
-            browser.browserAction.setIcon({
-                path: {
-                    48: 'icons/48.png'
-                }
-            });
-        }
+        })
+        .then(success, err);
     };
 
-    var restoreOptions = function() {
+    let restoreOptions = () => {
         browser.storage.local.get('blueLogo')
-            .then(function(result) {
+            .then((result) => {
                 blueLogoEl.checked = result.blueLogo || false;
-            }, function(error) {
+            }, (error) => {
                 console.log(`Error: ${error}`);
             });
     };
