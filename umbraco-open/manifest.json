@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Open Umbraco",
   "homepage_url": "https://github.com/HarveyWilliams/OpenUmbraco",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "icons": {
     "48": "icons/48.png"
   },
@@ -17,6 +17,10 @@
     "default_title": "Open Umbraco!"
   },
   "permissions": [
-      "tabs"
-  ]
+      "tabs",
+      "storage"
+  ],
+  "options_ui": {
+      "page": "options.html"
+  }
 }

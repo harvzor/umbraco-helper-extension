@@ -3,8 +3,29 @@ browser = typeof browser === 'undefined' ? chrome : browser;
 const open = {};
 
 open.name = 'UmbracoOpen';
-open.version = '0.4.0';
+open.version = '0.5.0';
 open.debug = false;
+
+open.setIcon = () => {
+    browser.storage.local.get('blueLogo')
+        .then(function(result) {
+            if (result.blueLogo) {
+                browser.browserAction.setIcon({
+                    path: {
+                        30: 'icons/30-blue.png'
+                    }
+                });
+            } else {
+                browser.browserAction.setIcon({
+                    path: {
+                        48: 'icons/48.png'
+                    }
+                });
+            }
+        }, function(error) {
+            console.log(`Error: ${error}`);
+        });
+};
 
 // Create an anchor element to get the URL origin.
 // http://stackoverflow.com/a/1421037
@@ -94,4 +115,5 @@ open.init = () => {
 };
 
 open.init();
+open.setIcon();
 
