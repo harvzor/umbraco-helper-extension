@@ -4,7 +4,6 @@ const open = {};
 
 open.name = 'UmbracoOpen';
 open.version = '0.5.0';
-open.debug = false;
 
 open.setIcon = () => {
     browser.storage.local.get('blueLogo')
@@ -48,50 +47,14 @@ open.toggleUmbraco = (fullUrl, index) => {
     });
 };
 
-/*
-open.clickEvent = function() {
-    // Tab always returns undefined...
-    var gettingCurrentTab = browser.tabs.getCurrent(function(tab) {
-        console.log(tab);
-    });
-
-    function onGot(tabInfo) {
-        browser.tabs.create({
-            "url": tabInfo.url + '/umbraco'
-        });
-    };
-
-    function onError(error) {
-        console.log(`Error: ${error}`);
-    }
-
-    gettingCurrentTab.then(onGot, onError);
-}
-*/
-
 // Where totalTime is the time spent going around this function.
 open.clickEvent = (e, totalTime) => {
-    if (open.debug) {
-        console.log(`[${open.name}]`, `Waited ${(totalTime || 0)}ms.`);
-    }
-
     // Wait 10 seconds before giving up.
     if (totalTime > 9999) {
         console.log(`[${open.name}]`, 'New page took too long to load. Giving up.');
 
         return;
     }
-
-    /*
-    browser.tabs.getCurrent()
-        .then((tab) => {
-            console.log(tab);
-        });
-    */
-
-    // Not supported by Firefox.
-    //browser.tabs.getSelected()
-
 
     browser.tabs.query({ currentWindow: true, active: true }, function(tabs) {
         if (tabs[0].status == 'loading') {
@@ -105,12 +68,6 @@ open.clickEvent = (e, totalTime) => {
 };
 
 open.init = () => {
-    /* This doesn't work for some reason.
-    if (open.debug) {
-        console.log(`[${open.name}]`, `Debug mode enabled on version ${open.version}.`);
-    }
-    */
-
     browser.browserAction.onClicked.addListener(open.clickEvent);
 };
 
