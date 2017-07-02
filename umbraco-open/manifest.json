@@ -19,7 +19,8 @@
   },
   "permissions": [
       "tabs",
-      "storage"
+      "storage",
+      "webNavigation"
   ],
   "options_ui": {
       "page": "options.html"

@@ -1,6 +1,35 @@
 browser = typeof browser === 'undefined' ? chrome : browser;
 
 var open = function() {
+    let currentUrl = '';
+
+    let trackUrl = function() {
+        browser.webNavigation.onBeforeNavigate.addListener((details) => {
+            if (details.frameId == 0) {
+                currentUrl = details.url;
+            }
+        });
+
+        browser.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
+            if (changeInfo.url) {
+                currentUrl = changeInfo.url;
+            }
+
+            console.log(currentUrl);
+
+        });
+
+        browser.tabs.onActivated.addListener((activeInfo) => {
+            browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+                let tab = tabs[0];
+
+                currentUrl = tab.url;
+
+                console.log(currentUrl);
+            });
+        });
+    }();
+
     // Create an anchor element to get the URL origin.
     // http://stackoverflow.com/a/1421037
     let getOrigin = (fullUrl) => {
@@ -24,7 +53,10 @@ var open = function() {
 
     // Where totalTime is the time spent going around this function.
     let clickEvent = (e, totalTime) => {
-        browser.tabs.query({ currentWindow: true, active: true }, function(tabs) {
+        browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+            toggleUmbraco(currentUrl, tabs[0].index + 1);
+
+            /*
             if (tabs[0].status == 'loading') {
                 setTimeout(() => {
                     clickEvent(e, (totalTime || 0) + 100);
@@ -32,6 +64,7 @@ var open = function() {
             } else {
                 toggleUmbraco(tabs[0].url, tabs[0].index + 1);
             }
+            */
         });
     };
 
