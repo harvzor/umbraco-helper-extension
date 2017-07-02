@@ -1,4 +1,4 @@
-//browser = typeof browser === 'undefined' ? chrome : browser;
+browser = typeof browser === 'undefined' ? chrome : browser;
 
 (function() {
     console.log('loaded');
