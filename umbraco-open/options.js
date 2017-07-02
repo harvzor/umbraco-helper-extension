@@ -2,7 +2,7 @@
 
 (function() {
     console.log('loaded');
-    let blueLogoEl = document.querySelector('#blue-logo')
+    let altLogoEl = document.querySelector('#alt-logo')
 
     let saveOptions = (e) => {
         e.preventDefault();
@@ -16,15 +16,15 @@
         };
 
         browser.storage.local.set({
-            blueLogo: blueLogoEl.checked
+            altLogo: altLogoEl.checked
         })
         .then(success, err);
     };
 
     let restoreOptions = () => {
-        browser.storage.local.get('blueLogo')
+        browser.storage.local.get('altLogo')
             .then((result) => {
-                blueLogoEl.checked = result.blueLogo || false;
+                altLogoEl.checked = result.altLogo || false;
             }, (error) => {
                 console.log(`Error: ${error}`);
             });

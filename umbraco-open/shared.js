@@ -1,19 +1,19 @@
 browser = typeof browser === 'undefined' ? chrome : browser;
 
 const shared = function() {
-    var setIcon = () => {
-        browser.storage.local.get('blueLogo')
+    let setIcon = () => {
+        browser.storage.local.get('altLogo')
             .then((result) => {
-                if (result.blueLogo) {
+                if (result.altLogo) {
                     browser.browserAction.setIcon({
                         path: {
-                            30: 'icons/30-blue.png'
+                            48: 'icons/48-orange.png'
                         }
                     });
                 } else {
                     browser.browserAction.setIcon({
                         path: {
-                            48: 'icons/48.png'
+                            30: 'icons/30-blue.png'
                         }
                     });
                 }
