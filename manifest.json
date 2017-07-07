@@ -14,13 +14,16 @@
     ]
   },
   "browser_action": {
-    "default_icon": "icons/48.png",
+    "default_icon": "icons/30-blue.png",
     "default_title": "Open Umbraco!"
   },
   "permissions": [
       "tabs",
       "storage",
-      "webNavigation"
+      "cookies",
+      "webNavigation",
+      "http://*/",
+      "https://*/"
   ],
   "options_ui": {
       "page": "options.html"

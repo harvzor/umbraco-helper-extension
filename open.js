@@ -3,6 +3,57 @@ browser = typeof browser === 'undefined' ? chrome : browser;
 var open = function() {
     let currentUrl = '';
 
+    let decruft = (text) => {
+        return text.replace(")]}',", '');
+    };
+
+    let openUmbracoNode = () => {
+        let apiUrl = '/umbraco/backoffice/UmbracoApi/Entity/SearchAll?query=';
+        let path = getPath(currentUrl);
+        let alias = getAliasOfPath(path);
+        var domain = getOrigin(currentUrl);
+
+        console.log('run', domain + apiUrl + alias);
+
+        browser.cookies.get({
+            url: domain,
+            name: 'XSRF-TOKEN'
+        })
+        .then((cookie) => {
+            console.log('token', cookie.value);
+
+            let headers = new Headers({
+                'X-XSRF-TOKEN': cookie.value
+            });
+
+            fetch(domain + apiUrl + alias, {
+                method: 'GET',
+                credentials: 'same-origin',
+                headers: headers
+            })
+            .then((response) => {
+                response.text().then((text) => {
+                    var json = JSON.parse(decruft(text));
+
+                    browser.tabs.create({
+                        url: domain + '/umbraco/#/content/content/edit/' + json[0].results[0].id
+                        //index: 
+                    });
+                });
+            })
+            .catch((error) => {
+                console.log('error', error);
+            });
+        });
+    };
+
+    // Get an Umbraco safe alias from a path.
+    let getAliasOfPath = (path) => {
+        return path
+            .replace('/', ' ')
+            .replace('-', ' ');
+    };
+
     let trackUrl = function() {
         browser.webNavigation.onBeforeNavigate.addListener((details) => {
             if (details.frameId == 0) {
@@ -33,10 +84,18 @@ var open = function() {
     // Create an anchor element to get the URL origin.
     // http://stackoverflow.com/a/1421037
     let getOrigin = (fullUrl) => {
-        let a = document.createElement("a");
+        let a = document.createElement('a');
         a.href = fullUrl;
 
         return a.origin;
+    };
+
+    // Get path of a URL.
+    let getPath = (fullUrl) => {
+        let a = document.createElement('a');
+        a.href = fullUrl;
+
+        return a.pathname;
     };
 
     let toggleUmbraco = (fullUrl, index) => {
@@ -73,7 +132,8 @@ var open = function() {
 
     return {
         name: 'UmbracoOpen',
-        version: '0.6.0'
+        version: '0.6.0',
+        openUmbracoNode: openUmbracoNode
     };
 }();
 
