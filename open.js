@@ -60,22 +60,43 @@ var open = function() {
         );
     };
 
-    let openUmbracoNode = () => {
-        let apiUrl = '/umbraco/backoffice/UmbracoApi/Entity/SearchAll?query=';
-        let path = helpers.getPath(url.get());
-        let alias = helpers.getAliasOfPath(path);
-        let domain = helpers.getOrigin(url.get());
+    let openUmbracoNode = (testUrl) => {
+        let path;
+        let alias;
+        let domain;
+
+        if (typeof testUrl !== 'undefined') {
+            path = helpers.getPath(testUrl);
+            alias = helpers.getAliasOfPath(path);
+            domain = helpers.getOrigin(testUrl);
+        } else {
+            path = helpers.getPath(url.get());
+            alias = helpers.getAliasOfPath(path);
+            domain = helpers.getOrigin(url.get());
+        }
+
+        if (path.includes('/umbraco')) {
+            notify("Can't find the Umbraco node of a backoffice page!");
+
+            return;
+        }
 
         browser.cookies.get({
             url: domain,
             name: 'XSRF-TOKEN'
         })
         .then((cookie) => {
+            if (!cookie) {
+                notify('Failed to get Umbraco access. Are you logged in?');
+
+                return;
+            }
+
             let headers = new Headers({
                 'X-XSRF-TOKEN': cookie.value
             });
 
-            fetch(domain + apiUrl + alias, {
+            fetch(domain + '/umbraco/backoffice/UmbracoApi/Entity/SearchAll?query=' + alias, {
                 method: 'GET',
                 credentials: 'same-origin',
                 headers: headers
@@ -84,7 +105,15 @@ var open = function() {
                 response.text().then((text) => {
                     let json = JSON.parse(helpers.decruft(text));
 
-                    helpers.createTabAfterCurrent(domain + '/umbraco/#/content/content/edit/' + json[0].results[0].id);
+                    let id = helpers.getUmbracoId(json, domain, path);
+
+                    if (id == null) {
+                        notify('Failed to find Umbraco node.');
+
+                        return;
+                    }
+
+                    helpers.createTabAfterCurrent(domain + '/umbraco/#/content/content/edit/' + id);
                 });
             })
             .catch((error) => {

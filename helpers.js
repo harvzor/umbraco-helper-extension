@@ -39,12 +39,38 @@ var helpers = function() {
         });
     };
 
+    let getUmbracoId = (json, matchDomain, matchPath) => {
+        if (!json.length || !json[0].results.length) {
+            return null;
+        }
+
+        // Order by URL length descending.
+        let results = json[0].results.sort((a, b) => {
+            return a.metaData.Url < b.metaData.Url;
+        });
+
+        for (let result of results) {
+            let url = result.metaData.Url;
+
+            if (url.startsWith('http')) {
+                if (url.includes(matchDomain + matchPath)) {
+                    return result.id;
+                }
+            } else if (url.includes(matchPath)) {
+                return result.id;
+            }
+        }
+
+        return null;
+    };
+
     return {
         getAliasOfPath: getAliasOfPath,
         decruft: decruft,
         getOrigin: getOrigin,
         getPath: getPath,
-        createTabAfterCurrent: createTabAfterCurrent
+        createTabAfterCurrent: createTabAfterCurrent,
+        getUmbracoId: getUmbracoId
     };
 }();
 
