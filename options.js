@@ -1,3 +1,5 @@
+"use strict";
+
 browser = typeof browser === 'undefined' ? chrome : browser;
 
 (function() {

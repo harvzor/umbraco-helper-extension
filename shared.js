@@ -1,6 +1,8 @@
+"use strict";
+
 browser = typeof browser === 'undefined' ? chrome : browser;
 
-const shared = function() {
+var shared = function() {
     let setIcon = () => {
         browser.storage.local.get('altLogo')
             .then((result) => {

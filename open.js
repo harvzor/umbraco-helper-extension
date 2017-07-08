@@ -1,78 +1,60 @@
+"use strict";
+
 browser = typeof browser === 'undefined' ? chrome : browser;
 
 var open = function() {
-    let currentUrl = '';
     let clickTimeout = null;
 
-    let decruft = (text) => {
-        return text.replace(")]}',", '');
-    };
+    let url = function() {
+        let currentUrl = '';
 
-    // Get an Umbraco safe alias from a path.
-    let getAliasOfPath = (path) => {
-        return path
-            .replace('/', ' ')
-            .replace('-', ' ');
-    };
-
-    let trackUrl = function() {
-        browser.webNavigation.onBeforeNavigate.addListener((details) => {
-            if (details.frameId == 0) {
-                currentUrl = details.url;
-            }
-        });
-
-        browser.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
-            if (changeInfo.url) {
-                currentUrl = changeInfo.url;
-            }
+        let set = (newUrl) => {
+            currentUrl = newUrl;
 
             console.log(currentUrl);
+        };
 
-        });
+        let get = () => {
+            return currentUrl;
+        };
 
-        browser.tabs.onActivated.addListener((activeInfo) => {
-            browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-                let tab = tabs[0];
+        // Check to see if the current URL is a valid website URL, and not some internal browser page.
+        let valid = () => {
+            return get().startsWith('http');
+        };
 
-                currentUrl = tab.url;
-
-                console.log(currentUrl);
+        // Events.
+        (function() {
+            browser.webNavigation.onBeforeNavigate.addListener((details) => {
+                if (details.frameId == 0) {
+                    set(details.url);
+                }
             });
-        });
+
+            browser.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
+                if (changeInfo.url) {
+                    set(changeInfo.url);
+                }
+            });
+
+            browser.tabs.onActivated.addListener((activeInfo) => {
+                browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+                    set(tabs[0].url);
+                });
+            });
+        }());
+
+        return {
+            get: get,
+            valid: valid
+        };
     }();
 
-    // Create an anchor element to get the URL origin.
-    // http://stackoverflow.com/a/1421037
-    let getOrigin = (fullUrl) => {
-        let a = document.createElement('a');
-        a.href = fullUrl;
-
-        return a.origin;
-    };
-
-    // Get path of a URL.
-    let getPath = (fullUrl) => {
-        let a = document.createElement('a');
-        a.href = fullUrl;
-
-        return a.pathname;
-    };
-
-    let createTabAfterCurrent = (url) => {
-        browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-            browser.tabs.create({
-                url: url,
-                index: tabs[0].index + 1
-            });
-        });
-    };
-
     let toggleUmbraco = () => {
-        let origin = getOrigin(currentUrl);
+        let origin = helpers.getOrigin(url.get());
 
-        createTabAfterCurrent(
-            currentUrl.includes('/umbraco')
+        helpers.createTabAfterCurrent(
+            url.get().includes('/umbraco')
                 ? origin // Navigate back to the homepage since we are in Umbraco.
                 : origin + '/umbraco/' // Must have trailing slash for Umbraco 4.
         );
@@ -80,9 +62,9 @@ var open = function() {
 
     let openUmbracoNode = () => {
         let apiUrl = '/umbraco/backoffice/UmbracoApi/Entity/SearchAll?query=';
-        let path = getPath(currentUrl);
-        let alias = getAliasOfPath(path);
-        let domain = getOrigin(currentUrl);
+        let path = helpers.getPath(url.get());
+        let alias = helpers.getAliasOfPath(path);
+        let domain = helpers.getOrigin(url.get());
 
         browser.cookies.get({
             url: domain,
@@ -100,9 +82,9 @@ var open = function() {
             })
             .then((response) => {
                 response.text().then((text) => {
-                    let json = JSON.parse(decruft(text));
+                    let json = JSON.parse(helpers.decruft(text));
 
-                    createTabAfterCurrent(domain + '/umbraco/#/content/content/edit/' + json[0].results[0].id);
+                    helpers.createTabAfterCurrent(domain + '/umbraco/#/content/content/edit/' + json[0].results[0].id);
                 });
             })
             .catch((error) => {
@@ -116,12 +98,16 @@ var open = function() {
     // - single click: toggle Umbraco
     // - double click: open Umbraco node
     let clickEvent = (e) => {
+        if (!url.valid()) {
+            console.log('Not a valid URL.');
+
+            return;
+        }
+
         if (clickTimeout != null) {
             clearTimeout(clickTimeout);
 
             clickTimeout = null;
-
-            console.log('cleared', clickTimeout);
 
             openUmbracoNode();
         } else {
@@ -141,6 +127,7 @@ var open = function() {
     return {
         name: 'UmbracoOpen',
         version: '0.6.0',
+        toggleUmbraco: toggleUmbraco,
         openUmbracoNode: openUmbracoNode
     };
 }();
