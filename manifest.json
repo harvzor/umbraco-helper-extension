@@ -12,7 +12,8 @@
       "shared.js",
       "open.js",
       "helpers.js",
-      "notify.js"
+      "notify.js",
+      "log.js"
     ]
   },
   "browser_action": {

@@ -3,7 +3,6 @@
 browser = typeof browser === 'undefined' ? chrome : browser;
 
 (function() {
-    console.log('loaded');
     let altLogoEl = document.querySelector('#alt-logo')
     let delayEl = document.querySelector('#delay')
 
@@ -27,7 +26,7 @@ browser = typeof browser === 'undefined' ? chrome : browser;
             .then((result) => {
                 altLogoEl.checked = Object.keys(result).length ? result.altLogo : false;
             }, (error) => {
-                console.log(`Error: ${error}`);
+                log(`Error: ${error}`);
             });
 
         browser.storage.local.get('delay')
@@ -38,7 +37,7 @@ browser = typeof browser === 'undefined' ? chrome : browser;
 
                 shared.delay.set(value);
             }, (error) => {
-                console.log(`Error: ${error}`);
+                log(`Error: ${error}`);
             });
     };
 

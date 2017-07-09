@@ -12,7 +12,7 @@ var open = function() {
         let set = (newUrl) => {
             currentUrl = newUrl;
 
-            console.log(currentUrl);
+            log(currentUrl);
         };
 
         let get = () => {
@@ -61,20 +61,10 @@ var open = function() {
         );
     };
 
-    let openUmbracoNode = (testUrl) => {
-        let path;
-        let alias;
-        let domain;
-
-        if (typeof testUrl !== 'undefined') {
-            path = helpers.getPath(testUrl);
-            alias = helpers.getAliasOfPath(path);
-            domain = helpers.getOrigin(testUrl);
-        } else {
-            path = helpers.getPath(url.get());
-            alias = helpers.getAliasOfPath(path);
-            domain = helpers.getOrigin(url.get());
-        }
+    let openUmbracoNode = (useUrl = url.get()) => {
+        let path = helpers.getPath(useUrl);
+        let alias = helpers.getAliasOfPath(path);
+        let domain = helpers.getOrigin(useUrl);
 
         if (path.includes('/umbraco')) {
             notify("Can't find the Umbraco node of a backoffice page!");
@@ -118,7 +108,7 @@ var open = function() {
                 });
             })
             .catch((error) => {
-                console.log('error', error);
+                log('error', error);
             });
         });
     };
@@ -127,9 +117,9 @@ var open = function() {
     // Also tracks if the user has clicked or double clicked.
     // - single click: toggle Umbraco
     // - double click: open Umbraco node
-    let clickEvent = (e) => {
+    let clickEvent = () => {
         if (!url.valid()) {
-            console.log('Not a valid URL.');
+            log('Not a valid URL.');
 
             return;
         }

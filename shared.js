@@ -11,7 +11,7 @@ var shared = function() {
                 .then((result) => {
                     value = Object.keys(result).length ? result.delay : 300;
                 }, (error) => {
-                    console.log(`Error: ${error}`);
+                    log(`Error: ${error}`);
                 });
         };
 
@@ -58,7 +58,7 @@ var shared = function() {
                     });
                 }
             }, (error) => {
-                console.log(`Error: ${error}`);
+                log(`Error: ${error}`);
             });
     };
 
