@@ -4,7 +4,8 @@ browser = typeof browser === 'undefined' ? chrome : browser;
 
 var open = function() {
     let clickTimeout = null;
-
+    let delay = 300;
+    
     let url = function() {
         let currentUrl = '';
 
@@ -146,7 +147,7 @@ var open = function() {
                 clearTimeout(clickTimeout);
 
                 clickTimeout = null;
-            }, 300);
+            }, shared.delay.get());
         }
     };
 
