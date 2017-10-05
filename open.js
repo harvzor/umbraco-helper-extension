@@ -124,6 +124,31 @@ var open = function() {
     };
 
     /**
+     * Setup right click context menus.
+     */
+    var setupContextMenu = function() {
+        browser.menus.create({
+            id: 'open-umbraco',
+            title: 'Open Backoffice',
+            contexts: ['all']
+        });
+
+        browser.menus.create({
+            id: 'open-umbraco-backoffice',
+            title: 'Open Node',
+            contexts: ['all']
+        });
+
+        browser.menus.onClicked.addListener((info, tab) => {
+            if (info.menuItemId == 'open-umbraco') {
+                toggleUmbraco();
+            } else if (info.menuItemId == 'open-umbraco-backoffice') {
+                openUmbracoNode();
+            }
+        });
+    };
+
+    /**
      * The button click event.
      * Also tracks if the user has clicked or double clicked.
      * - single click: toggle Umbraco
@@ -156,6 +181,8 @@ var open = function() {
 
     browser.browserAction.onClicked.addListener(clickEvent);
     shared.setIcon();
+
+    setupContextMenu();
 
     return {
         name: 'UmbracoOpen',
