@@ -4,6 +4,7 @@ browser = typeof browser === 'undefined' ? chrome : browser;
 
 (function() {
     let altLogoEl = document.querySelector('#alt-logo')
+    let contextMenuEl = document.querySelector('#context-menu')
     let delayEl = document.querySelector('#delay')
 
     let saveOptions = (e) => {
@@ -11,10 +12,12 @@ browser = typeof browser === 'undefined' ? chrome : browser;
 
         browser.storage.local.set({
             altLogo: altLogoEl.checked,
+            contextMenu: contextMenuEl.checked,
             delay: delayEl.value
         })
         .then(() => {
             shared.setIcon();
+            shared.contextMenus().setup();
             shared.delay.set(delayEl.value);
         }, (error) => {
             notify('Error saving options');
@@ -25,6 +28,13 @@ browser = typeof browser === 'undefined' ? chrome : browser;
         browser.storage.local.get('altLogo')
             .then((result) => {
                 altLogoEl.checked = Object.keys(result).length ? result.altLogo : false;
+            }, (error) => {
+                log(`Error: ${error}`);
+            });
+
+        browser.storage.local.get('contextMenu')
+            .then((result) => {
+                contextMenuEl.checked = Object.keys(result).length ? result.contextMenu : true;
             }, (error) => {
                 log(`Error: ${error}`);
             });
