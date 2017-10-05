@@ -146,7 +146,7 @@ var open = function() {
 
     return {
         name: 'UmbracoOpen',
-        version: '0.6.0',
+        version: '0.7.0',
         toggleUmbraco: toggleUmbraco,
         openUmbracoNode: openUmbracoNode
     };
