@@ -2,10 +2,16 @@
 
 browser = typeof browser === 'undefined' ? chrome : browser;
 
+/**
+ * Main extension code.
+ */
 var open = function() {
     let clickTimeout = null;
     let delay = 300;
     
+    /**
+     * @private
+     */
     let url = function() {
         let currentUrl = '';
 
@@ -61,6 +67,10 @@ var open = function() {
         );
     };
 
+    /**
+     * 
+     * @param {string} useUrl 
+     */
     let openUmbracoNode = (useUrl = url.get()) => {
         let path = helpers.getPath(useUrl);
         let alias = helpers.getAliasOfPath(path);
@@ -113,10 +123,13 @@ var open = function() {
         });
     };
 
-    // The button click event.
-    // Also tracks if the user has clicked or double clicked.
-    // - single click: toggle Umbraco
-    // - double click: open Umbraco node
+    /**
+     * The button click event.
+     * Also tracks if the user has clicked or double clicked.
+     * - single click: toggle Umbraco
+     * - double click: open Umbraco node
+     * @private
+     */
     let clickEvent = () => {
         if (!url.valid()) {
             log('Not a valid URL.');
@@ -151,4 +164,3 @@ var open = function() {
         openUmbracoNode: openUmbracoNode
     };
 }();
-

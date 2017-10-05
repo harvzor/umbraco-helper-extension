@@ -1,7 +1,13 @@
 "use strict";
 
+/**
+ * Simple helper functions.
+ */
 var helpers = function() {
-    // Get an Umbraco safe alias from a path.
+    /**
+     * Get an Umbraco safe alias from a path.
+     * @param {string} path 
+     */
     let getAliasOfPath = (path) => {
         return path
             .replace(/\//g, ' ')
@@ -9,12 +15,18 @@ var helpers = function() {
             .trim(' ');
     };
 
+    /**
+     * @param {string} text 
+     */
     let decruft = (text) => {
         return text.replace(")]}',", '');
     };
 
-    // Create an anchor element to get the URL origin.
-    // http://stackoverflow.com/a/1421037
+    /**
+     * Create an anchor element to get the URL origin.
+     * http://stackoverflow.com/a/1421037
+     * @param {string} fullUrl 
+     */
     let getOrigin = (fullUrl) => {
         let a = document.createElement('a');
         a.href = fullUrl;
@@ -22,7 +34,10 @@ var helpers = function() {
         return a.origin;
     };
 
-    // Get path of a URL.
+    /**
+     * Get path of a URL.
+     * @param {string} fullUrl 
+     */
     let getPath = (fullUrl) => {
         let a = document.createElement('a');
         a.href = fullUrl;
@@ -30,6 +45,9 @@ var helpers = function() {
         return a.pathname;
     };
 
+    /**
+     * @param {string} url 
+     */
     let createTabAfterCurrent = (url) => {
         browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
             browser.tabs.create({

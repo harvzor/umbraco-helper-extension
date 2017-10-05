@@ -2,7 +2,15 @@
 
 browser = typeof browser === 'undefined' ? chrome : browser;
 
+/**
+ * Shared code between modules.
+ */
 var shared = function() {
+    /**
+     * For getting and setting the delay between when the extension
+     * icon is clicked and either the single or double click action
+     * occurs.
+     */
     let delay = function() {
         let value = 300;
 
@@ -25,10 +33,17 @@ var shared = function() {
             getNew();
         });
 
+        /**
+         * Get the delay time (ms).
+         */
         let get = () => {
             return value;
         };
 
+        /**
+         * Set the delay time (ms).
+         * @param {number} newValue New delay time (ms).
+         */
         let set = (newValue) => {
             value = newValue;
         };
@@ -41,6 +56,9 @@ var shared = function() {
         };
     }();
 
+    /**
+     * Set the web extension icon in the browser chrome.
+     */
     let setIcon = () => {
         browser.storage.local.get('altLogo')
             .then((result) => {
@@ -67,4 +85,3 @@ var shared = function() {
         delay: delay
     };
 }();
-

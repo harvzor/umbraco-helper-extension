@@ -21,13 +21,22 @@
     "default_title": "Open Umbraco!"
   },
   "permissions": [
+      // For creating tabs and getting the current tab URL.
       "tabs",
+      // For saving settings.
       "storage",
+      // For accessing Umbraco cookies so queries can be made
+      // on your behalf.
       "cookies",
+      // Not sure.
       "webNavigation",
+      // To notify you of any errors.
       "notifications",
+      // So queries can be made to the current Umbraco site.
       "http://*/",
-      "https://*/"
+      "https://*/",
+      // Custom right-click context menu.
+      "menus"
   ],
   "options_ui": {
       "page": "options.html"
