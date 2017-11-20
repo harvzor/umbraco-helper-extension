@@ -6,7 +6,7 @@
 var helpers = function() {
     /**
      * Get an Umbraco safe alias from a path.
-     * @param {string} path 
+     * @param {string} path
      */
     let getAliasOfPath = (path) => {
         return path
@@ -16,7 +16,7 @@ var helpers = function() {
     };
 
     /**
-     * @param {string} text 
+     * @param {string} text
      */
     let decruft = (text) => {
         return text.replace(")]}',", '');
@@ -25,7 +25,7 @@ var helpers = function() {
     /**
      * Create an anchor element to get the URL origin.
      * http://stackoverflow.com/a/1421037
-     * @param {string} fullUrl 
+     * @param {string} fullUrl
      */
     let getOrigin = (fullUrl) => {
         let a = document.createElement('a');
@@ -36,7 +36,7 @@ var helpers = function() {
 
     /**
      * Get path of a URL.
-     * @param {string} fullUrl 
+     * @param {string} fullUrl
      */
     let getPath = (fullUrl) => {
         let a = document.createElement('a');
@@ -46,15 +46,34 @@ var helpers = function() {
     };
 
     /**
-     * @param {string} url 
+     * Create a tab relative to the current tab.
+     * @private
+     * @param {string} url
+     * @param {number} relativeIndex
      */
-    let createTabAfterCurrent = (url) => {
+    let createTab = (url, relativeIndex) => {
         browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+            console.log(tabs);
             browser.tabs.create({
                 url: url,
-                index: tabs[0].index + 1
+                index: tabs[0].index + relativeIndex
             });
         });
+    };
+
+    /**
+     * @param {string} url
+     */
+    let createTabAfterCurrent = (url) => {
+        createTab(url, 1);
+    };
+
+    /**
+     * @param {string} url
+     */
+    let createTabBeforeCurrent = (url) => {
+        // Because the new tab should sit at the index of the current tab.
+        createTab(url, 0);
     };
 
     let getUmbracoId = (json, matchDomain, matchPath) => {
@@ -88,7 +107,7 @@ var helpers = function() {
         getOrigin: getOrigin,
         getPath: getPath,
         createTabAfterCurrent: createTabAfterCurrent,
+        createTabBeforeCurrent: createTabBeforeCurrent,
         getUmbracoId: getUmbracoId
     };
 }();
-

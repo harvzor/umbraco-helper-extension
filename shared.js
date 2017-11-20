@@ -135,11 +135,13 @@ var shared = function() {
     let toggleUmbraco = () => {
         let origin = helpers.getOrigin(urlTracker.get());
 
-        helpers.createTabAfterCurrent(
-            urlTracker.get().includes('/umbraco')
-                ? origin // Navigate back to the homepage since we are in Umbraco.
-                : origin + '/umbraco/' // Must have trailing slash for Umbraco 4.
-        );
+        if (urlTracker.get().includes('/umbraco')) {
+            // Navigate back to the homepage since we are in Umbraco.
+            helpers.createTabBeforeCurrent(origin);
+        } else {
+            // Must have trailing slash for Umbraco 4.
+            helpers.createTabAfterCurrent(origin + '/umbraco/');
+        }
     };
 
     /**
