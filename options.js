@@ -10,7 +10,7 @@ browser = typeof browser === 'undefined' ? chrome : browser;
     let saveOptions = (e) => {
         e.preventDefault();
 
-        browser.storage.local.set({
+        browser.storage.sync.set({
             altLogo: altLogoEl.checked,
             contextMenu: contextMenuEl.checked,
             delay: delayEl.value
@@ -25,21 +25,21 @@ browser = typeof browser === 'undefined' ? chrome : browser;
     };
 
     let restoreOptions = () => {
-        browser.storage.local.get('altLogo')
+        browser.storage.sync.get('altLogo')
             .then((result) => {
                 altLogoEl.checked = Object.keys(result).length ? result.altLogo : false;
             }, (error) => {
                 log(`Error: ${error}`);
             });
 
-        browser.storage.local.get('contextMenu')
+        browser.storage.sync.get('contextMenu')
             .then((result) => {
                 contextMenuEl.checked = Object.keys(result).length ? result.contextMenu : true;
             }, (error) => {
                 log(`Error: ${error}`);
             });
 
-        browser.storage.local.get('delay')
+        browser.storage.sync.get('delay')
             .then((result) => {
                 let value = Object.keys(result).length ? result.delay : 300;
 

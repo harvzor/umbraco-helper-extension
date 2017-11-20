@@ -15,7 +15,7 @@ var shared = function() {
         let value = 300;
 
         let getNew = () => {
-            browser.storage.local.get('delay')
+            browser.storage.sync.get('delay')
                 .then((result) => {
                     value = Object.keys(result).length ? result.delay : 300;
                 }, (error) => {
@@ -60,7 +60,7 @@ var shared = function() {
      * Set the web extension icon in the browser chrome.
      */
     let setIcon = () => {
-        browser.storage.local.get('altLogo')
+        browser.storage.sync.get('altLogo')
             .then((result) => {
                 if (result.altLogo) {
                     browser.browserAction.setIcon({
@@ -98,7 +98,7 @@ var shared = function() {
         });
 
         var setup = function() {
-            browser.storage.local.get('contextMenu')
+            browser.storage.sync.get('contextMenu')
                 .then((result) => {
                     if (!result.contextMenu) {
                         browser.menus.removeAll();
