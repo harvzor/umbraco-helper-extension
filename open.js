@@ -1,7 +1,5 @@
 "use strict";
 
-browser = typeof browser === 'undefined' ? chrome : browser;
-
 /**
  * Main extension code.
  */

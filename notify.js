@@ -1,7 +1,5 @@
 "use strict";
 
-browser = typeof browser === 'undefined' ? chrome : browser;
-
 /**
  * Wraper for notifying the user of anything that's happening.
  */

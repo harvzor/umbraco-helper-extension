@@ -1,7 +1,5 @@
 "use strict";
 
-browser = typeof browser === 'undefined' ? chrome : browser;
-
 /**
  * Tracks the current URL which the user is looking at.
  * Required because Firefox isn't good at knowing what a tab is loading,
@@ -41,9 +39,10 @@ let urlTracker = function() {
         });
 
         browser.tabs.onActivated.addListener((activeInfo) => {
-            browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-                set(tabs[0].url);
-            });
+            browser.tabs.query({ currentWindow: true, active: true })
+                .then((tabs) => {
+                    set(tabs[0].url);
+                });
         });
     }());
 

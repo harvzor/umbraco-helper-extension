@@ -52,13 +52,13 @@ var helpers = function() {
      * @param {number} relativeIndex
      */
     let createTab = (url, relativeIndex) => {
-        browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-            console.log(tabs);
-            browser.tabs.create({
-                url: url,
-                index: tabs[0].index + relativeIndex
+        browser.tabs.query({ currentWindow: true, active: true })
+            .then((tabs) => {
+                browser.tabs.create({
+                    url: url,
+                    index: tabs[0].index + relativeIndex
+                });
             });
-        });
     };
 
     /**

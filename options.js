@@ -1,7 +1,5 @@
 "use strict";
 
-browser = typeof browser === 'undefined' ? chrome : browser;
-
 (function() {
     let altLogoEl = document.querySelector('#alt-logo')
     let contextMenuEl = document.querySelector('#context-menu')

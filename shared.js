@@ -1,7 +1,5 @@
 "use strict";
 
-browser = typeof browser === 'undefined' ? chrome : browser;
-
 /**
  * Shared code between modules.
  */
@@ -87,9 +85,12 @@ var shared = function() {
      * at the options page, two sets of menu click events will trigger.
      */
     var contextMenus = function() {
+        // Required until the polyfill catches up: https://github.com/mozilla/webextension-polyfill/issues/74
+        var menus = browser.menus || browser.contextMenus;
+
         // I had trouble removing the listener, so I'll just add it once
         // even if there's new context menu.
-        browser.menus.onClicked.addListener((info, tab) => {
+        menus.onClicked.addListener((info, tab) => {
             if (info.menuItemId == 'toggle-umbraco') {
                 toggleUmbraco();
             } else if (info.menuItemId == 'open-umbraco-backoffice') {
@@ -101,18 +102,18 @@ var shared = function() {
             browser.storage.sync.get('contextMenu')
                 .then((result) => {
                     if (!result.contextMenu) {
-                        browser.menus.removeAll();
+                        menus.removeAll();
 
                         return;
                     }
 
-                    browser.menus.create({
+                    menus.create({
                         id: 'toggle-umbraco',
                         title: 'Toggle Backoffice',
                         contexts: ['all']
                     });
 
-                    browser.menus.create({
+                    menus.create({
                         id: 'open-umbraco-backoffice',
                         title: 'Open Node',
                         contexts: ['all']

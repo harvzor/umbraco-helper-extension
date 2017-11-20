@@ -14,6 +14,7 @@
   "description": "Open the current sites Umbraco page.",
   "background": {
     "scripts": [
+      "browser-polyfill.min.js",
       "urlTracker.js",
       "shared.js",
       "open.js",
@@ -34,6 +35,7 @@
       "notifications",
       "http://*/",
       "https://*/",
+      "contextMenus",
       "menus"
   ],
   "options_ui": {
