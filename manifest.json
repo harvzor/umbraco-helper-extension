@@ -1,13 +1,13 @@
 {
   "applications": {
     "gecko": {
-      "id": "harveyjwilliams@aol.co.uk"
+      "id": "{d38c41da-b1ec-4f80-a310-ac90bb1ec96b}"
     }
   },
   "manifest_version": 2,
   "name": "Open Umbraco",
   "homepage_url": "https://github.com/HarveyWilliams/OpenUmbraco",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "icons": {
     "30": "icons/30-blue.png"
   },
