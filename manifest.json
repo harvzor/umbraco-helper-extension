@@ -9,6 +9,7 @@
   "description": "Open the current sites Umbraco page.",
   "background": {
     "scripts": [
+      "urlTracker.js",
       "shared.js",
       "open.js",
       "helpers.js",

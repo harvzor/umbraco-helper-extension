@@ -104,7 +104,7 @@ var shared = function() {
                         browser.menus.removeAll();
 
                         return;
-                    } 
+                    }
 
                     browser.menus.create({
                         id: 'toggle-umbraco',
@@ -133,20 +133,20 @@ var shared = function() {
      * If you're not on /umbraco/, open /umbraco/.
      */
     let toggleUmbraco = () => {
-        let origin = helpers.getOrigin(url.get());
+        let origin = helpers.getOrigin(urlTracker.get());
 
         helpers.createTabAfterCurrent(
-            url.get().includes('/umbraco')
+            urlTracker.get().includes('/umbraco')
                 ? origin // Navigate back to the homepage since we are in Umbraco.
                 : origin + '/umbraco/' // Must have trailing slash for Umbraco 4.
         );
     };
 
     /**
-     * 
-     * @param {string} useUrl 
+     *
+     * @param {string} useUrl
      */
-    let openUmbracoNode = (useUrl = url.get()) => {
+    let openUmbracoNode = (useUrl = urlTracker.get()) => {
         let path = helpers.getPath(useUrl);
         let alias = helpers.getAliasOfPath(path);
         let domain = helpers.getOrigin(useUrl);
@@ -198,60 +198,11 @@ var shared = function() {
         });
     };
 
-    /**
-     * @private
-     */
-    let url = function() {
-        let currentUrl = '';
-
-        let set = (newUrl) => {
-            currentUrl = newUrl;
-
-            log(currentUrl);
-        };
-
-        let get = () => {
-            return currentUrl;
-        };
-
-        // Check to see if the current URL is a valid website URL, and not some internal browser page.
-        let valid = () => {
-            return get().startsWith('http');
-        };
-
-        // Events.
-        (function() {
-            browser.webNavigation.onBeforeNavigate.addListener((details) => {
-                if (details.frameId == 0) {
-                    set(details.url);
-                }
-            });
-
-            browser.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
-                if (changeInfo.url) {
-                    set(changeInfo.url);
-                }
-            });
-
-            browser.tabs.onActivated.addListener((activeInfo) => {
-                browser.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-                    set(tabs[0].url);
-                });
-            });
-        }());
-
-        return {
-            get: get,
-            valid: valid
-        };
-    }();
-
     return {
         delay: delay,
         setIcon: setIcon,
         contextMenus: contextMenus,
         toggleUmbraco: toggleUmbraco,
-        openUmbracoNode: openUmbracoNode,
-        url: url
+        openUmbracoNode: openUmbracoNode
     };
 }();

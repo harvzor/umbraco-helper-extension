@@ -17,7 +17,7 @@ var open = function() {
      * @private
      */
     let clickEvent = () => {
-        if (!shared.url.valid()) {
+        if (!urlTracker.valid()) {
             log('Not a valid URL.');
 
             return;

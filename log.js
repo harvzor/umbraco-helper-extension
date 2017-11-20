@@ -8,4 +8,3 @@ var log = function() {
         console.log(`[${open.name}]`, ...message);
     };
 }();
-
