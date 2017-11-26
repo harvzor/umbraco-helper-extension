@@ -2,28 +2,44 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <style>
+        .input-error {
+            display:none;
+            color:rgb(255, 0, 57);
+        }
+
+        input:invalid + .input-error {
+            display:block;
+        }
+    </style>
 </head>
 <body>
+    <h1>Options</h1>
     <form>
-        <div>
-            <label>
+        <div class="browser-style">
+            <input type="checkbox" id="alt-logo">
+            <label for="alt-logo">
                 Use orange logo?
-                <input type="checkbox" id="alt-logo" />
             </label>
         </div>
-        <div>
-            <label>
+        <div class="browser-style">
+            <input type="checkbox" id="context-menu">
+            <label for="context-menu">
                 Create right click context menu?
-                <input type="checkbox" id="context-menu" />
             </label>
         </div>
-        <div>
-            <label>
-                Click delay between what is considered a single click and a double click (ms)
-                <input type="number" id="delay" min="0" />
+        <div class="browser-style">
+            <label for="delay">
+                Click delay on the browser action button between what is considered a single click and a double click (milliseconds). Enter a longer time if you want to make it easier to double click.
             </label>
+            <br>
+            <!-- should be type 'number' when Photon styles support it -->
+            <input type="text" id="delay" min="0" placeholder="300" pattern="[0-9]{1,4}" required>
+            <p class="input-error">
+                This field is required. Please input 1 to 4 numbers. The default is 300 milliseconds.
+            </p>
         </div>
-        <button type="submit">Save</button>
+        <button type="submit" class="browser-style default">Save options</button>
     </form>
     <script src="browser-polyfill.min.js"></script>
     <script src="notify.js"></script>

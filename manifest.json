@@ -39,6 +39,7 @@
       "menus"
   ],
   "options_ui": {
+      "browser_style": true,
       "page": "options.html"
   }
 }
