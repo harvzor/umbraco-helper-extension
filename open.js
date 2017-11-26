@@ -43,7 +43,7 @@ var open = function() {
     shared.contextMenus().setup();
 
     return {
-        name: 'UmbracoOpen',
+        name: 'Umbraco Helper Extension',
         version: '0.8.1'
     };
 }();

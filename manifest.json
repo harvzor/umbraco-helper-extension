@@ -5,13 +5,13 @@
     }
   },
   "manifest_version": 2,
-  "name": "Open Umbraco",
+  "name": "Umbraco Helper Extension",
   "homepage_url": "https://github.com/HarveyWilliams/OpenUmbraco",
   "version": "0.8.1",
   "icons": {
     "30": "icons/30-blue.png"
   },
-  "description": "Open the current sites Umbraco page.",
+  "description": "A browser extension/addon which helps you work quicker with Umbraco with small productivity increasing features. Useful for developers who have to interact with multiple different Umbraco sites everyday.",
   "background": {
     "scripts": [
       "browser-polyfill.min.js",
@@ -25,7 +25,7 @@
   },
   "browser_action": {
     "default_icon": "icons/30-blue.png",
-    "default_title": "Open Umbraco!"
+    "default_title": "Umbraco Helper"
   },
   "permissions": [
       "tabs",
