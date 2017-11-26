@@ -44,6 +44,6 @@ var open = function() {
 
     return {
         name: 'UmbracoOpen',
-        version: '0.8.0'
+        version: '0.8.1'
     };
 }();
