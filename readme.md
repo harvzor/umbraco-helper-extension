@@ -1,4 +1,4 @@
-# Productvity boosting Umbraco browser extension
+# Productivity boosting Umbraco browser extension
 
 Are you tired of opening a website, copying the URL, opening a new tab, pasting the URL, then adding `/umbraco/` to the end just so you can access the backoffice?
 
