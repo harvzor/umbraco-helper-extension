@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Wraper for notifying the user of anything that's happening.
+ * Wrapper for notifying the user of anything that's happening.
  */
 var notify = function() {
     /**
