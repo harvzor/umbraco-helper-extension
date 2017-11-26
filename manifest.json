@@ -14,13 +14,13 @@
   "description": "A browser extension/addon which helps you work quicker with Umbraco with small productivity increasing features. Useful for developers who have to interact with multiple different Umbraco sites everyday.",
   "background": {
     "scripts": [
-      "browser-polyfill.min.js",
-      "urlTracker.js",
-      "shared.js",
-      "open.js",
-      "helpers.js",
-      "notify.js",
-      "log.js"
+      "/scripts/browser-polyfill.min.js",
+      "/scripts/urlTracker.js",
+      "/scripts/shared.js",
+      "/scripts/helpers.js",
+      "/scripts/notify.js",
+      "/scripts/log.js",
+      "open.js"
     ]
   },
   "browser_action": {
