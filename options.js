@@ -5,52 +5,41 @@
     let contextMenuEl = document.querySelector('#context-menu')
     let delayEl = document.querySelector('#delay')
 
-    let saveOptions = (e) => {
+    let onSubmit = (e) => {
         e.preventDefault();
 
-        browser.storage.sync.set({
-            altLogo: altLogoEl.checked,
-            contextMenu: contextMenuEl.checked,
-            delay: delayEl.value
-        })
-        .then(() => {
-            shared.setIcon();
-            shared.contextMenus().setup();
-            shared.delay.set(delayEl.value);
-        }, (error) => {
-            notify('Error saving options');
-        });
+        if (!e.target.checkValidity()) {
+            notify("Please check input fields are valid.");
+        }
+
+        settings.useAltLogo.save(altLogoEl.checked);
+        settings.createContextMenu.save(contextMenuEl.checked);
+        settings.delayTime.save(delayEl.value);
+
+        notify("Saved!");
+
+        shared.setIcon();
+        shared.contextMenus().setup();
     };
 
     let restoreOptions = () => {
-        browser.storage.sync.get('altLogo')
-            .then((result) => {
-                altLogoEl.checked = Object.keys(result).length ? result.altLogo : false;
-            }, (error) => {
-                log(`Error: ${error}`);
+        settings.useAltLogo.get()
+            .then((value) => {
+                altLogoEl.checked = value;
             });
 
-        browser.storage.sync.get('contextMenu')
-            .then((result) => {
-                contextMenuEl.checked = Object.keys(result).length ? result.contextMenu : true;
-            }, (error) => {
-                log(`Error: ${error}`);
+        settings.createContextMenu.get()
+            .then((value) => {
+                contextMenuEl.checked = value;
             });
 
-        browser.storage.sync.get('delay')
-            .then((result) => {
-                let value = Object.keys(result).length ? result.delay : 300;
-
+        settings.delayTime.get()
+            .then((value) => {
                 delayEl.value = value;
-
-                shared.delay.set(value);
-            }, (error) => {
-                log(`Error: ${error}`);
             });
     };
 
     document.addEventListener('DOMContentLoaded', restoreOptions);
 
-    document.querySelector('form').addEventListener('submit', saveOptions);
+    document.querySelector('form').addEventListener('submit', onSubmit, false);
 })();
-

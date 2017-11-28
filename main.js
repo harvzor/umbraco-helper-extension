@@ -3,7 +3,7 @@
 /**
  * Main extension code.
  */
-var open = function() {
+var main = function() {
     let clickTimeout = null;
     let delay = 300;
 
@@ -34,7 +34,7 @@ var open = function() {
                 clearTimeout(clickTimeout);
 
                 clickTimeout = null;
-            }, shared.delay.get());
+            }, settings.delayTime.get());
         }
     };
 

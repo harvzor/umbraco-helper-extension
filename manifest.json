@@ -6,7 +6,7 @@
   },
   "manifest_version": 2,
   "name": "Umbraco Helper Extension",
-  "homepage_url": "https://github.com/HarveyWilliams/OpenUmbraco",
+  "homepage_url": "https://github.com/HarveyWilliams/Umbraco-Helper-Extension",
   "version": "0.8.1",
   "icons": {
     "30": "icons/30-blue.png"
@@ -16,11 +16,12 @@
     "scripts": [
       "/scripts/browser-polyfill.min.js",
       "/scripts/urlTracker.js",
+      "/scripts/settings.js",
       "/scripts/shared.js",
       "/scripts/helpers.js",
       "/scripts/notify.js",
       "/scripts/log.js",
-      "open.js"
+      "main.js"
     ]
   },
   "browser_action": {

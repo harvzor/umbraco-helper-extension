@@ -5,76 +5,32 @@
  */
 var shared = function() {
     /**
-     * For getting and setting the delay between when the extension
-     * icon is clicked and either the single or double click action
-     * occurs.
+     * Get the icon which should be used.
      */
-    let delay = function() {
-        let value = 300;
-
-        let getNew = () => {
-            browser.storage.sync.get('delay')
-                .then((result) => {
-                    value = Object.keys(result).length ? result.delay : 300;
-                }, (error) => {
-                    log(`Error: ${error}`);
+    let getIcon = () => {
+        return new Promise((resolve, reject) => {
+            settings.useAltLogo.get()
+                .then((useAltLogo) => {
+                    if (useAltLogo) {
+                        resolve('icons/48-orange.png');
+                    } else {
+                        resolve('icons/30-blue.png');
+                    }
                 });
-        };
-
-        // We have to watch for changes because shared is not a
-        // singleton between the main process and the options!
-        browser.storage.onChanged.addListener((change, area) => {
-            if (area !== 'local') {
-                return;
-            }
-
-            getNew();
-        });
-
-        /**
-         * Get the delay time (ms).
-         */
-        let get = () => {
-            return value;
-        };
-
-        /**
-         * Set the delay time (ms).
-         * @param {number} newValue New delay time (ms).
-         */
-        let set = (newValue) => {
-            value = newValue;
-        };
-
-        getNew();
-
-        return {
-            get: get,
-            set: set
-        };
-    }();
+            });
+    };
 
     /**
      * Set the web extension icon in the browser chrome.
      */
     let setIcon = () => {
-        browser.storage.sync.get('altLogo')
-            .then((result) => {
-                if (result.altLogo) {
-                    browser.browserAction.setIcon({
-                        path: {
-                            48: 'icons/48-orange.png'
-                        }
-                    });
-                } else {
-                    browser.browserAction.setIcon({
-                        path: {
-                            30: 'icons/30-blue.png'
-                        }
-                    });
-                }
-            }, (error) => {
-                log(`Error: ${error}`);
+        getIcon()
+            .then((path) => {
+                browser.browserAction.setIcon({
+                    path: {
+                        48: path
+                    }
+                })
             });
     };
 
@@ -99,9 +55,9 @@ var shared = function() {
         });
 
         var setup = function() {
-            browser.storage.sync.get('contextMenu')
-                .then((result) => {
-                    if (!result.contextMenu) {
+            settings.createContextMenu.get()
+                .then((createContextMenu) => {
+                    if (!createContextMenu) {
                         menus.removeAll();
 
                         return;
@@ -202,7 +158,7 @@ var shared = function() {
     };
 
     return {
-        delay: delay,
+        getIcon: getIcon,
         setIcon: setIcon,
         contextMenus: contextMenus,
         toggleUmbraco: toggleUmbraco,

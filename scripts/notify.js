@@ -8,10 +8,21 @@ var notify = function() {
      * @param {string} message Your message to the user.
      */
     return function(message) {
-        browser.notifications.create({
+        var notificationOptions = {
             type: 'basic',
-            title: open.name,
+            title: main.name,
             message: message
-        });
+        };
+
+        shared.getIcon()
+            .then((path) => {
+                notificationOptions.iconUrl = path;
+            })
+            .catch(() => {
+                log('Error showing notification with iconUrl.');
+            })
+            .then(() => {
+                browser.notifications.create(notificationOptions);
+            })
     };
 }();
