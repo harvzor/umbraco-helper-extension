@@ -15,7 +15,6 @@ var settings = function() {
     let getterSetter = function(name, defaultValue) {
         let get = () => {
             return new Promise((resolve, reject) => {
-
                 browser.storage[mode].get(name)
                     .then((result) => {
                         resolve(Object.keys(result).length ? result[name] : defaultValue);

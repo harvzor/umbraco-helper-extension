@@ -5,7 +5,6 @@
  */
 var main = function() {
     let clickTimeout = null;
-    let delay = 300;
 
     /**
      * The button click event.
@@ -28,13 +27,16 @@ var main = function() {
 
             shared.openUmbracoNode();
         } else {
-            clickTimeout = setTimeout(() => {
-                shared.toggleUmbraco();
+            settings.delayTime.get()
+                .then((delay) => {
+                    clickTimeout = setTimeout(() => {
+                        shared.toggleUmbraco();
 
-                clearTimeout(clickTimeout);
+                        clearTimeout(clickTimeout);
 
-                clickTimeout = null;
-            }, settings.delayTime.get());
+                        clickTimeout = null;
+                    }, delay);
+                })
         }
     };
 
