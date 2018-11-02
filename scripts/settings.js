@@ -28,7 +28,7 @@ var settings = function() {
             });
         };
 
-        var save = (value) => {
+        let save = (value) => {
             browser.storage[mode].set({
                 [name]: value
             })
