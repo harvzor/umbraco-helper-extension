@@ -97,6 +97,12 @@ I'm a busy person and this is just another side project! I can't guarantee actio
 
 If you just want to say thanks, please Tweet about the extension - seeing that my work has improved the productivity of someone else makes my day a little bit brighter. If it's helped you, then some publicity might even mean that it can help someone else too.
 
+## Developing
+
+I strong recommend using the `web-ext` node based application to help with developing with Firefox. You can read about using it [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Getting_started_with_web-ext).
+
+Once installed (`npm install --global web-ext`), you can run it in the root of this repo (`web-ext run`). This will then launch Firefox so you can develop with automatic reloading of the package every time you make a change.
+
 ## Roadmap
 
 - public Firefox release
