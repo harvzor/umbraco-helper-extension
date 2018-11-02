@@ -76,17 +76,35 @@ var helpers = function() {
         createTab(url, 0);
     };
 
+    /**
+     * @param {object} version Version of Umbraco such as { major: 7, minor: 5, release: 3 }
+     * @param {object} json Result from the Umbraco API. Will change based on the version of Umbraco.
+     * @param {string} matchDomain
+     * @param {string} matchPath
+    */
     let getUmbracoId = (json, matchDomain, matchPath) => {
-        if (!json.length || !json[0].results.length) {
+        let results;
+
+        if (json.constructor === Array) {
+            results = json[0].results;
+        }
+        // https://umbraco.com/blog/hello-umbraco-77/ - ISearchableTree
+        // Results were changed to include results from all of Umbraco,
+        // including media etc. Before it only searched content.
+        else {
+            results = json.Content.results;
+        }
+
+        if (!results.length) {
             return null;
         }
 
         // Order by URL length descending.
-        let results = json[0].results.sort((a, b) => {
+        let resultsSorted = results.sort((a, b) => {
             return a.metaData.Url < b.metaData.Url;
         });
 
-        for (let result of results) {
+        for (let result of resultsSorted) {
             let url = result.metaData.Url;
 
             if (url.startsWith('http')) {

@@ -116,20 +116,36 @@ var shared = function() {
             return;
         }
 
-        browser.cookies.get({
-            url: domain,
-            name: 'XSRF-TOKEN'
-        })
-        .then((cookie) => {
-            if (!cookie) {
+        Promise.all([
+            // Versions after 7.0.0.
+            browser.cookies.get({
+                url: domain,
+                name: 'XSRF-TOKEN'
+            }),
+            // Versions after and including Umbraco 7.6.6.
+            // https://github.com/umbraco/Umbraco-CMS/commit/d300bf8d6db3d6ce4485db0d2ba23566648f0f6b#diff-03b545eb24a942725027983f14c7d436
+            browser.cookies.get({
+                url: domain,
+                name: 'UMB-XSRF-TOKEN'
+            })
+        ])
+        .then((cookies) => {
+            if (!cookies[0] && !cookies[1]) {
                 notify('Failed to get Umbraco access. Are you logged in?');
 
                 return;
             }
 
-            let headers = new Headers({
-                'X-XSRF-TOKEN': cookie.value
-            });
+            let headers = new Headers();
+
+            if (cookies[0] != null) {
+                headers.append('X-XSRF-TOKEN', cookies[0].value);
+            }
+
+            if (cookies[1] != null) {
+                headers.append('X-UMB-XSRF-TOKEN', cookies[1].value);
+            }
+
 
             fetch(domain + '/umbraco/backoffice/UmbracoApi/Entity/SearchAll?query=' + alias, {
                 method: 'GET',
