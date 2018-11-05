@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Shared code between modules.
+ * Shared code between main extension controller and also settings controller.
  */
 var shared = function() {
     /**
@@ -42,6 +42,7 @@ var shared = function() {
      */
     var contextMenus = function() {
         // Required until the polyfill catches up: https://github.com/mozilla/webextension-polyfill/issues/74
+        // browser.menus is the new API (FF55), browser.contextMenus works on Chrome and FF
         var menus = browser.menus || browser.contextMenus;
 
         // I had trouble removing the listener, so I'll just add it once
@@ -57,9 +58,9 @@ var shared = function() {
         var setup = function() {
             settings.createContextMenu.get()
                 .then((createContextMenu) => {
-                    if (!createContextMenu) {
-                        menus.removeAll();
+                    menus.removeAll();
 
+                    if (!createContextMenu) {
                         return;
                     }
 
