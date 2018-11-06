@@ -103,13 +103,29 @@ I strong recommend using the `web-ext` node based application to help with devel
 
 Once installed (`npm install --global web-ext`), you can run it in the root of this repo (`web-ext run`). This will then launch Firefox so you can develop with automatic reloading of the package every time you make a change.
 
-### Signing
+### Signing/packaging
+
+#### Firefox
 
 Signing with `web-ext sign` will submit the extension to AMO but will not make it listed - this option is for self distribution only. [They're working on this feature for Q1 2019](https://github.com/mozilla/web-ext/issues/804#issuecomment-426670076).
 
 For now, the extension should be built using `web-ext build`, then manually uploading to AMO.
 
 Sign for Firefox using `web-ext sign --api-key [key] --api-secret [secret]`. The key and secret can be found [here](https://addons.mozilla.org/en-US/developers/addon/api/key/) (JWT issuer and JWT secret respectively).
+
+#### Chrome
+
+Go to https://chrome.google.com/webstore/developer/update to upload a zip file to the Chrome store.
+
+The zip should contain:
+
+- /icons
+- /scripts
+- main.js
+- manifest.json
+- options.html
+- options.js
+- readme.md
 
 ## Roadmap
 
