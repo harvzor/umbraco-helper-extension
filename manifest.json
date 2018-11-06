@@ -11,7 +11,7 @@
   "icons": {
     "30": "icons/30-blue.png"
   },
-  "description": "A browser extension/addon which helps you work quicker with Umbraco with small productivity increasing features. Useful for developers who have to interact with multiple different Umbraco sites everyday.",
+  "description": "A browser extension which helps you work quicker with Umbraco with small productivity increasing features.",
   "background": {
     "scripts": [
       "/scripts/browser-polyfill.min.js",
