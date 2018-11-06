@@ -136,6 +136,10 @@ The zip should contain:
 
 This extension can make Umbraco API calls on your behalf. No updates are made using the API, and only queries are done. However, I will hold no liability for any damage this extension may do (although unlikely) to your website.
 
+## Sidenote
+
+It's crazy how much time I actually spent building this extension. It's partially a waste of time because similar packages already exist on the app store (although at the time of writing, there's nothing in the Firefox extensions because the old one didn't use the new APIs). However, I guess I learnt a lot and I had fun.
+
 ## License
 
 MIT
