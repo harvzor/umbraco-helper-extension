@@ -12,9 +12,9 @@ var shared = function() {
             settings.useAltLogo.get()
                 .then((useAltLogo) => {
                     if (useAltLogo) {
-                        resolve('icons/48-orange.png');
+                        resolve('icons/64-orange.png');
                     } else {
-                        resolve('icons/30-blue.png');
+                        resolve('icons/64-blue.png');
                     }
                 });
             });
@@ -28,7 +28,7 @@ var shared = function() {
             .then((path) => {
                 browser.browserAction.setIcon({
                     path: {
-                        48: path
+                        64: path
                     }
                 })
             });

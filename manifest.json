@@ -9,7 +9,9 @@
   "homepage_url": "https://github.com/HarveyWilliams/Umbraco-Helper-Extension",
   "version": "0.9.1",
   "icons": {
-    "30": "icons/30-blue.png"
+    "32": "icons/32-blue.png",
+    "64": "icons/64-blue.png",
+    "128": "icons/128-blue.png"
   },
   "description": "A browser extension which helps you work quicker with Umbraco with small productivity increasing features.",
   "background": {
@@ -25,7 +27,7 @@
     ]
   },
   "browser_action": {
-    "default_icon": "icons/30-blue.png",
+    "default_icon": "icons/64-blue.png",
     "default_title": "Umbraco Helper"
   },
   "permissions": [
