@@ -3,13 +3,26 @@
 <head>
     <meta charset="utf-8">
     <style>
+        hr {
+            margin:20px 0;
+            color:lightgray;
+        }
+
         .input-error {
             display:none;
             color:rgb(255, 0, 57);
         }
 
-        input:invalid + .input-error {
+        input:invalid + .input-error, textarea:invalid + .input-error {
             display:block;
+        }
+
+        #menu-links {
+            /* Stupid Firefox slightly cuts off box border if it's at 100%. */
+            width:99.9%;
+            min-height:350px;
+            padding:10px;
+            font-family:monospace;
         }
     </style>
 </head>
@@ -39,15 +52,23 @@
                 This field is required. Please input 1 to 4 numbers. The default is 300 milliseconds.
             </p>
         </div>
+        <hr />
+        <h2>Helpful Links</h2>
+        <p>These menu links are only relevant if you have the right click context menu enabled.</p>
+        <p>The JSON should be an array of objects. Each object must have the <code>title</code> and <code>link</code> parameters. There is also an optional <code>icons</code> parameter. Currently there is no way to upload icons into this extension so it's not possible to add your own. <a href="https://github.com/HarveyWilliams/Umbraco-Helper-Extension/blob/master/config/menu-links.json" target="_blank">Example JSON</a>.</p>
+        <textarea class="browser-style" id="menu-links"></textarea>
+        <p class="input-error">
+            There's an error with your input. Are you sure this is valid JSON?
+        </p>
+        <hr />
         <button type="submit" class="browser-style default">Save options</button>
     </form>
     <script src="/scripts/browser-polyfill.min.js"></script>
+    <script src="/scripts/helpers.js"></script>
     <script src="/scripts/notify.js"></script>
     <script src="/scripts/log.js"></script>
-    <script src="/scripts/helpers.js"></script>
     <script src="/scripts/shared.js"></script>
     <script src="/scripts/settings.js"></script>
-    <script src="main.js"></script>
     <script src="options.js"></script>
 </body>
 </html>

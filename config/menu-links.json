@@ -7,16 +7,16 @@
         "title": "Umbraco GitHub",
         "link": "https://github.com/umbraco/Umbraco-CMS",
         "icons": {
-            "16": "icons/menu-links/16-github.png",
-            "32": "icons/menu-links/32-github.png"
+            "16": "/icons/menu-links/16-github.png",
+            "32": "/icons/menu-links/32-github.png"
         }
     },
     {
         "title": "Our Umbraco",
         "link": "https://our.umbraco.com/",
         "icons": {
-            "16": "icons/menu-links/16-our-umbraco.png",
-            "32": "icons/menu-links/32-our-umbraco.png"
+            "16": "/icons/menu-links/16-our-umbraco.png",
+            "32": "/icons/menu-links/32-our-umbraco.png"
         }
     }
 ]

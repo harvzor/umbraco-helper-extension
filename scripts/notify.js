@@ -4,13 +4,20 @@
  * Wrapper for notifying the user of anything that's happening.
  */
 var notify = function() {
+    let name = '';
+
+    helpers.getConfig()
+        .then(config => {
+            name = config.name;
+        });
+
     /**
      * @param {string} message Your message to the user.
      */
     return function(message) {
         var notificationOptions = {
             type: 'basic',
-            title: main.name,
+            title: name,
             message: message
         };
 

@@ -42,10 +42,5 @@ var main = function() {
 
     browser.browserAction.onClicked.addListener(clickEvent);
     shared.setIcon();
-    shared.contextMenus().setup();
-
-    return {
-        name: 'Umbraco Helper Extension',
-        version: '0.8.1'
-    };
+    shared.contextMenus.setup(true);
 }();

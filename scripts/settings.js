@@ -42,13 +42,34 @@ var settings = function() {
         };
     };
 
+
     let useAltLogo = getterSetter('useAltLogo', false);
     let createContextMenu = getterSetter('createContextMenu', true);
     let delayTime = getterSetter('delayTime', 300);
+    let menuLinks = getterSetter('menuLinks', null);
+
+    menuLinks.get()
+        .then(value => {
+            // The value will only be null if this is the first time the extension is being loaded because
+            // it will either be set to the user's custom links or to the default links set in tehe config.
+            if (value !== null) {
+                return;
+            }
+
+            helpers.readFile('/config/menu-links.json')
+                .then(text => {
+                    menuLinks.save(text)
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        })
+
 
     return {
         useAltLogo: useAltLogo,
         createContextMenu: createContextMenu,
-        delayTime: delayTime
+        delayTime: delayTime,
+        menuLinks: menuLinks
     };
 }();

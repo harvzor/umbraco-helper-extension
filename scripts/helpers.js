@@ -128,10 +128,10 @@ var helpers = function() {
     let readFile = (path) => {
         return new Promise((resolve, reject) => {
             fetch(path, {mode:'same-origin'})
-                .then(function(_res) {
+                .then(_res => {
                     return _res.blob();
                 })
-                .then(function(_blob) {
+                .then(_blob => {
                     var reader = new FileReader();
 
                     reader.addEventListener("loadend", function() {
@@ -146,6 +146,35 @@ var helpers = function() {
         });
     };
 
+    /**
+     * Get the config file.
+     */
+    let getConfig = () => {
+        return new Promise((resolve, reject) => {
+            readFile('/config/config.json')
+                .then(text => {
+                    resolve(JSON.parse(text));
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    };
+
+    /**
+     * Tests to see if input string is JSON.
+     * @param {string} str
+     */
+    let isJson = (str) => {
+        try {
+            JSON.parse(str);
+        } catch {
+            return false;
+        }
+
+        return true;
+    };
+
     return {
         getAliasOfPath: getAliasOfPath,
         decruft: decruft,
@@ -154,6 +183,8 @@ var helpers = function() {
         createTabAfterCurrent: createTabAfterCurrent,
         createTabBeforeCurrent: createTabBeforeCurrent,
         getUmbracoId: getUmbracoId,
-        readFile: readFile
+        readFile: readFile,
+        getConfig: getConfig,
+        isJson: isJson
     };
 }();

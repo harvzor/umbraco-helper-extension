@@ -45,34 +45,58 @@ var shared = function() {
         // browser.menus is the new API (FF55), browser.contextMenus works on Chrome and FF
         var menus = browser.menus || browser.contextMenus;
 
-        // I had trouble removing the listener, so I'll just add it once
-        // even if there's new context menu.
-        menus.onClicked.addListener((info) => {
+        // Can't check to see if there's a listener because the `hasListener` method has to have a function input,
+        // but when I come to checking, it only checks the current instance of this function!
+        //menus.onClicked.hasListener(onClickListener)
+
+        /**
+         * What happens when the context menu is clicked on.
+         * @param {object} info
+         * @private
+         */
+        let onClickListener = (info) => {
             if (info.menuItemId == 'toggle-umbraco') {
                 toggleUmbraco();
             } else if (info.menuItemId == 'open-umbraco-backoffice') {
                 openUmbracoNode();
+            } else if (info.menuItemId.includes('helpful-links-')) {
+                let id = info.menuItemId.replace('helpful-links-', '');
+
+                settings.menuLinks.get()
+                    .then(text => {
+                        let menuLinks = JSON.parse(text);
+                        helpers.createTabAfterCurrent(menuLinks[id].link);
+                    });
             }
-        });
+        };
 
-        var setupLinks = function() {
-            // Separator.
-            menus.create({
-                id: 'helpful-links-separator',
-                type: 'separator',
-                contexts: ['all']
-            });
-
-            // Parent item.
-            menus.create({
-                id: 'helpful-links',
-                title: 'Helpful Links',
-                contexts: ['all']
-            });
-
-            helpers.readFile('/config/menu-links.json')
+        /**
+         * Setup links in the context menu which can be edited by the user.
+         * @private
+         */
+        let setupLinks = function() {
+            settings.menuLinks.get()
                 .then(text => {
                     let menuLinks = JSON.parse(text);
+
+                    if (!menuLinks.length) {
+                        // No menu links have been supplied so the links context items should not be added.
+                        return;
+                    }
+
+                    // Separator.
+                    menus.create({
+                        id: 'helpful-links-separator',
+                        type: 'separator',
+                        contexts: ['all']
+                    });
+
+                    // Parent item.
+                    menus.create({
+                        id: 'helpful-links',
+                        title: 'Helpful Links',
+                        contexts: ['all']
+                    });
 
                     menuLinks.forEach((menuLink, i) => {
                         menus.create({
@@ -85,23 +109,18 @@ var shared = function() {
                                 : null
                         });
                     });
-
-                    menus.onClicked.addListener(info => {
-                        if (!info.menuItemId.includes('helpful-links-')) {
-                            return;
-                        }
-
-                        let id = info.menuItemId.replace('helpful-links-', '');
-
-                        helpers.createTabAfterCurrent(menuLinks[id].link);
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
                 });
         };
 
-        var setup = function() {
+        /**
+         * Setup the right click context menus.
+         * @param {boolean} setupListeners Whether the listeners should be setup.
+         */
+        var setup = function(setupListeners) {
+            if (setupListeners) {
+                menus.onClicked.addListener(onClickListener);
+            }
+
             settings.createContextMenu.get()
                 .then((createContextMenu) => {
                     menus.removeAll();
@@ -132,7 +151,7 @@ var shared = function() {
         return {
             setup: setup
         };
-    };
+    }();
 
     /**
      * If you're on /umbraco/, then open up the site root.
