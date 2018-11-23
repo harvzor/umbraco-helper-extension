@@ -119,6 +119,7 @@ Go to https://chrome.google.com/webstore/developer/update to upload a zip file t
 
 The zip should contain:
 
+- /config
 - /icons
 - /scripts
 - main.js
@@ -126,11 +127,6 @@ The zip should contain:
 - options.html
 - options.js
 - readme.md
-
-## Roadmap
-
-- public Firefox release
-- Chrome release
 
 ## Disclaimer
 
