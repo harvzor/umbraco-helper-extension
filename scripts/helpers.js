@@ -119,6 +119,33 @@ var helpers = function() {
         return null;
     };
 
+    /**
+     * Read a file.
+     * https://stackoverflow.com/a/44516256/
+     * @param {*} path Path to the file which should be read.
+     * @returns {Promise} A promise.
+     */
+    let readFile = (path) => {
+        return new Promise((resolve, reject) => {
+            fetch(path, {mode:'same-origin'})
+                .then(function(_res) {
+                    return _res.blob();
+                })
+                .then(function(_blob) {
+                    var reader = new FileReader();
+
+                    reader.addEventListener("loadend", function() {
+                        resolve(this.result);
+                    });
+
+                    reader.readAsText(_blob);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    };
+
     return {
         getAliasOfPath: getAliasOfPath,
         decruft: decruft,
@@ -126,6 +153,7 @@ var helpers = function() {
         getPath: getPath,
         createTabAfterCurrent: createTabAfterCurrent,
         createTabBeforeCurrent: createTabBeforeCurrent,
-        getUmbracoId: getUmbracoId
+        getUmbracoId: getUmbracoId,
+        readFile: readFile
     };
 }();

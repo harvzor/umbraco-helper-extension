@@ -47,13 +47,59 @@ var shared = function() {
 
         // I had trouble removing the listener, so I'll just add it once
         // even if there's new context menu.
-        menus.onClicked.addListener((info, tab) => {
+        menus.onClicked.addListener((info) => {
             if (info.menuItemId == 'toggle-umbraco') {
                 toggleUmbraco();
             } else if (info.menuItemId == 'open-umbraco-backoffice') {
                 openUmbracoNode();
             }
         });
+
+        var setupLinks = function() {
+            // Separator.
+            menus.create({
+                id: 'helpful-links-separator',
+                type: 'separator',
+                contexts: ['all']
+            });
+
+            // Parent item.
+            menus.create({
+                id: 'helpful-links',
+                title: 'Helpful Links',
+                contexts: ['all']
+            });
+
+            helpers.readFile('/config/menu-links.json')
+                .then(text => {
+                    let menuLinks = JSON.parse(text);
+
+                    menuLinks.forEach((menuLink, i) => {
+                        menus.create({
+                            parentId: 'helpful-links',
+                            id: 'helpful-links-' + i,
+                            title: menuLink.title,
+                            contexts: ['all'],
+                            icons: typeof menuLink.icons !== 'undefined'
+                                ? menuLink.icons
+                                : null
+                        });
+                    });
+
+                    menus.onClicked.addListener(info => {
+                        if (!info.menuItemId.includes('helpful-links-')) {
+                            return;
+                        }
+
+                        let id = info.menuItemId.replace('helpful-links-', '');
+
+                        helpers.createTabAfterCurrent(menuLinks[id].link);
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        };
 
         var setup = function() {
             settings.createContextMenu.get()
@@ -72,9 +118,11 @@ var shared = function() {
 
                     menus.create({
                         id: 'open-umbraco-backoffice',
-                        title: 'Open Node',
+                        title: 'Open Current Page/Node',
                         contexts: ['all']
                     });
+
+                    setupLinks();
 
                 }, (error) => {
                     log(`Error: ${error}`);
@@ -146,7 +194,6 @@ var shared = function() {
             if (cookies[1] != null) {
                 headers.append('X-UMB-XSRF-TOKEN', cookies[1].value);
             }
-
 
             fetch(domain + '/umbraco/backoffice/UmbracoApi/Entity/SearchAll?query=' + alias, {
                 method: 'GET',
