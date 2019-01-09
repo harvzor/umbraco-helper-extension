@@ -6,7 +6,7 @@
   },
   "manifest_version": 2,
   "name": "Umbraco Helper Extension",
-  "homepage_url": "https://github.com/HarveyWilliams/Umbraco-Helper-Extension",
+  "homepage_url": "https://github.com/Harvzor/Umbraco-Helper-Extension",
   "version": "0.9.1",
   "icons": {
     "32": "icons/32-blue.png",
