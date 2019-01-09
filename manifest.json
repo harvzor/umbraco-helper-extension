@@ -7,7 +7,7 @@
   "manifest_version": 2,
   "name": "Umbraco Helper Extension",
   "homepage_url": "https://github.com/Harvzor/Umbraco-Helper-Extension",
-  "version": "0.9.1",
+  "version": "1.0.0",
   "icons": {
     "32": "icons/32-blue.png",
     "64": "icons/64-blue.png",
