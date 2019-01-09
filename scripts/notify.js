@@ -15,6 +15,10 @@ var notify = function() {
      * @param {string} message Your message to the user.
      */
     return function(message) {
+        if (message === null) {
+            log('No message supplied notify.');
+        }
+
         var notificationOptions = {
             type: 'basic',
             title: name,
