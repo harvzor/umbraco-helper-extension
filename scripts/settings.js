@@ -42,16 +42,16 @@ var settings = function() {
         };
     };
 
-
     let useAltLogo = getterSetter('useAltLogo', false);
     let createContextMenu = getterSetter('createContextMenu', true);
     let delayTime = getterSetter('delayTime', 300);
     let menuLinks = getterSetter('menuLinks', null);
 
+    // If the extension has just been downloaded, I want to save the menu-links into local storage using the default
+    // file.
     menuLinks.get()
         .then(value => {
-            // The value will only be null if this is the first time the extension is being loaded because
-            // it will either be set to the user's custom links or to the default links set in tehe config.
+            // The value will only ever be null when the extension is first run.
             if (value !== null) {
                 return;
             }
@@ -61,10 +61,9 @@ var settings = function() {
                     menuLinks.save(text)
                 })
                 .catch(error => {
-                    console.log(error);
+                    log(error);
                 });
         })
-
 
     return {
         useAltLogo: useAltLogo,

@@ -77,6 +77,18 @@ var shared = function() {
         let setupLinks = function() {
             settings.menuLinks.get()
                 .then(text => {
+                    // Will only ever be null if it's the first run of this extension as the settings haven't had time
+                    // to set defaults for the menuLinks.
+                    if (text === null) {
+                        // Obviously hacky.
+                        // Thought about setting a `onReady` callback function on the menuLinks function but...
+                        setTimeout(() => {
+                            setupLinks();
+                        }, 100);
+
+                        return;
+                    }
+
                     let menuLinks = JSON.parse(text);
 
                     if (!menuLinks.length) {
@@ -109,6 +121,9 @@ var shared = function() {
                                 : null
                         });
                     });
+                })
+                .catch(error => {
+                    log(`Error: ${error}`);
                 });
         };
 
@@ -122,7 +137,7 @@ var shared = function() {
             }
 
             settings.createContextMenu.get()
-                .then((createContextMenu) => {
+                .then(createContextMenu => {
                     menus.removeAll();
 
                     if (!createContextMenu) {
@@ -142,8 +157,8 @@ var shared = function() {
                     });
 
                     setupLinks();
-
-                }, (error) => {
+                })
+                .catch(error => {
                     log(`Error: ${error}`);
                 });
         };
