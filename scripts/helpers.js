@@ -175,6 +175,24 @@ var helpers = function() {
         return true;
     };
 
+    /**
+     * Detect if current browser is Firefox.
+     * https://stackoverflow.com/a/9851769
+     * @returns {boolean}
+     */
+    let isFirefox = () => {
+        return typeof InstallTrigger !== 'undefined';
+    };
+
+    /**
+     * Detect if current browser is Chrome.
+     * https://stackoverflow.com/a/9851769
+     * @returns {boolean}
+     */
+    let isChrome = () => {
+        return !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+    };
+
     return {
         getAliasOfPath: getAliasOfPath,
         decruft: decruft,
@@ -185,6 +203,8 @@ var helpers = function() {
         getUmbracoId: getUmbracoId,
         readFile: readFile,
         getConfig: getConfig,
-        isJson: isJson
+        isJson: isJson,
+        isFirefox: isFirefox,
+        isChrome: isChrome
     };
 }();

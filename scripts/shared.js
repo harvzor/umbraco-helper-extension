@@ -110,16 +110,24 @@ var shared = function() {
                         contexts: ['all']
                     });
 
+                    log(browser);
+
                     menuLinks.forEach((menuLink, i) => {
-                        menus.create({
+                        let newLink = {
                             parentId: 'helpful-links',
                             id: 'helpful-links-' + i,
                             title: menuLink.title,
-                            contexts: ['all'],
-                            icons: typeof menuLink.icons !== 'undefined'
-                                ? menuLink.icons
-                                : null
-                        });
+                            contexts: ['all']
+                        };
+
+                        // Currently only supported by Firefox
+                        // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/menus/create
+                        // https://developer.chrome.com/extensions/contextMenus#method-create
+                        if (helpers.isFirefox() && typeof menuLink.icons !== 'undefined') {
+                            newLink.icons = menuLink.icons;
+                        }
+
+                        menus.create(newLink);
                     });
                 })
                 .catch(error => {
