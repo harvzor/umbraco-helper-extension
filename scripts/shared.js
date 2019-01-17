@@ -110,8 +110,6 @@ var shared = function() {
                         contexts: ['all']
                     });
 
-                    log(browser);
-
                     menuLinks.forEach((menuLink, i) => {
                         let newLink = {
                             parentId: 'helpful-links',
