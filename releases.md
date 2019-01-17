@@ -1,5 +1,9 @@
 # Releases
 
+## 1.0.1
+
+- fixed "useful links" on Chrome (turns out Chrome doesn't support `icons` in context menus)
+
 ## 1.0.0
 
 - added "useful links" to right click context menus which link to Umbraco web pages (such as Our Umbraco)
