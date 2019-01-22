@@ -2,7 +2,7 @@
 
 Watch this short features/tutorial video for what Umbraco Helper Extension can do:
 
-[![Umbraco Helper Extension in Chrome Toolbar](https://img.youtube.com/vi/NmxYZgKeyL0/maxresdefault.jpg)](https://www.youtube.com/watch?v=NmxYZgKeyL0)
+[![Umbraco Helper Extension in Chrome Toolbar](/screenshots/Chrome/toolbar-1080p-youtube.png)](https://www.youtube.com/watch?v=NmxYZgKeyL0)
 
 ## Summary
 
