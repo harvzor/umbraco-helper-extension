@@ -105,19 +105,7 @@ Once installed (`npm install --global web-ext`), you can run it in the root of t
 
 ### Signing/packaging
 
-#### Firefox
-
-Signing with `web-ext sign` will submit the extension to AMO but will not make it listed - this option is for self distribution only. [They're working on this feature for Q1 2019](https://github.com/mozilla/web-ext/issues/804#issuecomment-426670076).
-
-For now, the extension should be built using `web-ext build`, then manually uploading to AMO.
-
-Sign for Firefox using `web-ext sign --api-key [key] --api-secret [secret]`. The key and secret can be found [here](https://addons.mozilla.org/en-US/developers/addon/api/key/) (JWT issuer and JWT secret respectively).
-
-#### Chrome
-
-Go to https://chrome.google.com/webstore/developer/update to upload a zip file to the Chrome store.
-
-The zip should contain:
+These are the files/folders the package should contrain:
 
 - /config
 - /icons
@@ -127,6 +115,18 @@ The zip should contain:
 - options.html
 - options.js
 - readme.md
+
+#### Firefox
+
+Signing with `web-ext sign` will submit the extension to AMO but will not make it listed - this option is for self distribution only. [They're working on this feature for Q1 2019](https://github.com/mozilla/web-ext/issues/804#issuecomment-426670076).
+
+For now, the extension should be built using `web-ext build`, then manually uploading to [AMO](https://addons.mozilla.org/en-US/developers/addon/umbraco-helper-extension/edit).
+
+Sign for Firefox using `web-ext sign --api-key [key] --api-secret [secret]`. The key and secret can be found [here](https://addons.mozilla.org/en-US/developers/addon/api/key/) (JWT issuer and JWT secret respectively).
+
+#### Chrome
+
+Go to https://chrome.google.com/webstore/developer/update to upload the zip file to the Chrome store.
 
 ## Disclaimer
 
