@@ -1,10 +1,25 @@
 # Productivity boosting Umbraco browser extension
 
+Watch this short features/tutorial video for what Umbraco Helper Extension can do:
+
+[![Umbraco Helper Extension in Chrome Toolbar](https://img.youtube.com/vi/NmxYZgKeyL0/maxresdefault.jpg)](https://www.youtube.com/watch?v=NmxYZgKeyL0)
+
+## Summary
+
 Are you tired of opening a website, copying the URL, opening a new tab, pasting the URL, then adding `/umbraco/` to the end just so you can access the backoffice?
 
 Well this is the extension for you!
 
 At the click of a button, a new tab will be opened which will either open `/umbraco/` or go back the root of the website (if you're already in the backoffice).
+
+## Installing
+
+This extension is available on both the Chrome and Firefox extension stores:
+
+- [Chrome extension](https://chrome.google.com/webstore/detail/umbraco-helper-extension/gkkbmhjpbdajdjcahjokofpfbmpoffka)
+- [Firefox extension](https://addons.mozilla.org/en-US/firefox/addon/umbraco-helper-extension/)
+
+Alternatively, you can look at the [releases](https://github.com/Harvzor/Umbraco-Helper-Extension/releases) page to download the latest `.crx` file (for Chrome) or `.xpi` file (for Firefox). These packages allow you to install it without using one of the extension stores.
 
 ## Find the Umbraco node for the current page
 
