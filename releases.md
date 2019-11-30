@@ -1,5 +1,9 @@
 # Releases
 
+## 1.0.3
+
+- attempting to get addon relisted on Firefox marketplace (their requirements got stricter)
+
 ## 1.0.1
 
 - fixed "useful links" on Chrome (turns out Chrome doesn't support `icons` in context menus)
